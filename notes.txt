@@ -1,0 +1,51 @@
+Notes:
+
+TODO:
+Save output by filename
+create venv
+us uv project
+
+
+be able to upload multiple times in a row ALSO go back from the outputs page??!
+
+CHeck for valid XML after substitution
+
+add sane defaults to all the fields: "N/A" if not do dash
+
+
+_____
+
+WORD parser:
+header:
+
+
+
+Register
+Document tagged 
+<listBibl>
+<head>Bibliography</head>
+^ - <bibl type="article" xml:id="LASTNAME_YEAR(A-Z)">
+
+$ - </bibl>
+
+</listBibl>
+
+for the header:
+<listBibl>
+<head>Previous editions of this document</head>
+<bibl corresp="#bibl_Weber_2020"><biblScope unit="page">29–65</biblScope><note>Some notes such as: This is the first edition of the document.</note></bibl></listBibl>
+
+
+for the register file
+<listBibl> <head>Bibliography</head> <bibl type= "article" xml:id="bibl_Weber_2020">
+Weber, Dieter. 2020. Studies in some documents from the `Pahlavi Archive’ (3): I. Breeding of poultry II. Aspbād, the `caretaker’. Bulletin of the Asia Institute 30. 29–65.
+</bibl>
+<bibl type= "article" xml:id="bibl_Weber_2021">
+Weber, Dieter. 2021. More studies in some documents from the `Pahlavi Archive’ (4): I. Breeding of turkeys II. Sindbad, the `merchant’. Bulletin of the Asia Institute 30. 29–65.
+</bibl>
+</listBibl>
+
+
+page range = book/ first italics
+
+pausal form (at the end of sentence)

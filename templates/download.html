@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Download XML Files</title>
+</head>
+
+<body>
+    <h1>Download XML Files</h1>
+    <ul>
+        {% for file in files %}
+        <li><a href="{{ url_for('download_file', unique_id=unique_id, filename=file) }}">{{ file }}</a></li>
+        {% endfor %}
+    </ul>
+</body>
+
+</html>

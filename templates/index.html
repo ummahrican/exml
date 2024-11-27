@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Excel and XML Template Uploader</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #f4f6f9;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            line-height: 1.6;
+        }
+
+        .container {
+            background-color: white;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            padding: 40px;
+            width: 100%;
+            max-width: 500px;
+            text-align: center;
+        }
+
+        .logo-container {
+            margin-bottom: 30px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .logo {
+            max-width: 150px;
+            max-height: 100px;
+            object-fit: contain;
+        }
+
+        h1 {
+            color: #2c3e50;
+            margin-bottom: 30px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        h1 i {
+            margin-right: 15px;
+            color: #3498db;
+        }
+
+        .file-input-wrapper {
+            position: relative;
+            margin-bottom: 20px;
+        }
+
+        .file-input-wrapper input[type="file"] {
+            position: absolute;
+            left: -9999px;
+        }
+
+        .file-input-wrapper label {
+            display: block;
+            padding: 10px 15px;
+            background-color: #3498db;
+            color: white;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .file-input-wrapper label:hover {
+            background-color: #2980b9;
+        }
+
+        .file-input-wrapper .file-name {
+            margin-top: 10px;
+            color: #7f8c8d;
+        }
+
+        input[type="submit"] {
+            background-color: #2ecc71;
+            color: white;
+            border: none;
+            padding: 12px 25px;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        input[type="submit"]:hover {
+            background-color: #27ae60;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <div class="logo-container">
+            <img src="Berkeley_logo.png" alt="Company Logo" class="logo">
+        </div>
+        <h1>
+            <i class="fas fa-file-upload"></i>
+            Upload Excel and XML Template
+        </h1>
+        <form action="/upload" method="post" enctype="multipart/form-data">
+            <div class="file-input-wrapper">
+                <input type="file" id="excelFile" name="excelFile" onchange="updateFileName(this, 'excelFileName')">
+                <label for="excelFile">
+                    <i class="fas fa-file-excel"></i> Choose Excel File
+                </label>
+                <div id="excelFileName" class="file-name">No file chosen</div>
+            </div>
+
+            <div class="file-input-wrapper">
+                <input type="file" id="xmlTemplate" name="xmlTemplate" onchange="updateFileName(this, 'xmlFileName')">
+                <label for="xmlTemplate">
+                    <i class="fas fa-file-code"></i> Choose XML Template
+                </label>
+                <div id="xmlFileName" class="file-name">No file chosen</div>
+            </div>
+
+            <input type="submit" value="Upload Files">
+        </form>
+    </div>
+
+    <script>
+        function updateFileName(input, displayId) {
+            const fileName = input.files.length > 0 ? input.files[0].name : 'No file chosen';
+            document.getElementById(displayId).textContent = fileName;
+        }
+    </script>
+</body>
+
+</html>
