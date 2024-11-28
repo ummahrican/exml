@@ -1,6 +1,6 @@
 <div align="center">
   <br>
-  <img alt="EXML Logo" src="git_icon.png" width="300px">
+  <img alt="EXML Logo" src="static/git_icon.png" width="300px">
   <h1>exml</h1>
   <strong>A Simple flask app for Automating Excel data into XML templates</strong>
 </div>
