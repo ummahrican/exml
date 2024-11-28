@@ -110,7 +110,8 @@
         </h1>
         <form action="/upload" method="post" enctype="multipart/form-data">
             <div class="file-input-wrapper">
-                <input type="file" id="excelFile" name="excelFile" onchange="updateFileName(this, 'excelFileName')">
+                <input type="file" id="excelFile" name="excelFile" accept=".xls,.xlsx"
+                    onchange="updateFileName(this, 'excelFileName')">
                 <label for="excelFile">
                     <i class="fas fa-file-excel"></i> Choose Excel File
                 </label>
@@ -118,7 +119,8 @@
             </div>
 
             <div class="file-input-wrapper">
-                <input type="file" id="xmlTemplate" name="xmlTemplate" onchange="updateFileName(this, 'xmlFileName')">
+                <input type="file" id="xmlTemplate" name="xmlTemplate" accept=".xml"
+                    onchange="updateFileName(this, 'xmlFileName')">
                 <label for="xmlTemplate">
                     <i class="fas fa-file-code"></i> Choose XML Template
                 </label>
