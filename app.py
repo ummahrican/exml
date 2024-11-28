@@ -6,11 +6,11 @@ from flask import (
     redirect,
     url_for,
 )
-import pandas as pd
-import xml.etree.ElementTree as ET
-import os
-import logging
 import uuid
+import logging
+import os
+from file_utils import read_excel_file, read_xml_template, ensure_directory_exists
+from xml_utils import populate_xml_template, write_xml_file, validate_xml_file
 
 app = Flask(__name__)
 app.config["UPLOAD_FOLDER"] = "uploads"
@@ -23,53 +23,25 @@ logging.basicConfig(
 
 
 def excel_to_xmls(excel_file, xml_template_path, output_dir):
-    try:
-        # Read the Excel file
-        df = pd.read_excel(excel_file)
-        logging.info(f"Successfully read {len(df)} rows from {excel_file}")
-    except Exception as e:
-        logging.error(f"Error reading Excel file: {e}")
+    df = read_excel_file(excel_file)
+    if df is None:
         return
 
-    try:
-        # Read the XML template
-        with open(xml_template_path, "r") as file:
-            xml_template = file.read()
-        logging.info(f"Successfully read XML template from {xml_template_path}")
-    except Exception as e:
-        logging.error(f"Error reading XML template: {e}")
+    xml_template = read_xml_template(xml_template_path)
+    if xml_template is None:
         return
 
-    # Ensure the output directory exists
-    if not os.path.exists(output_dir):
-        os.makedirs(output_dir)
-        logging.info(f"Created output directory: {output_dir}")
+    ensure_directory_exists(output_dir)
 
-    # Iterate over the rows in the DataFrame
     for index, row in df.iterrows():
         try:
-            # Convert the row to a dictionary
             row_dict = row.to_dict()
-
-            # Populate the XML template with the data from the dictionary
-            xml_content = xml_template
-            for key, value in row_dict.items():
-                placeholder = f"{{{key}}}"
-                if placeholder in xml_content:
-                    xml_content = xml_content.replace(placeholder, str(value))
-                else:
-                    logging.warning(
-                        f"Placeholder {placeholder} not found in XML template for row {index}"
-                    )
-
-            # Create the XML tree
-            root = ET.fromstring(xml_content)
-            tree = ET.ElementTree(root)
-
-            # Write the XML tree to a file
-            output_file = os.path.join(output_dir, f"output_{index + 1}.xml")
-            tree.write(output_file, encoding="utf-8", xml_declaration=True)
-            logging.info(f"Successfully wrote XML file: {output_file}")
+            xml_content = populate_xml_template(xml_template, row_dict)
+            first_value = row.iloc[0]
+            output_file = os.path.join(output_dir, f"{first_value}.xml")
+            write_xml_file(xml_content, output_file)
+            if not validate_xml_file(output_file):
+                continue
         except Exception as e:
             logging.error(f"Error processing row {index}: {e}")
 
@@ -90,7 +62,6 @@ def upload_file():
     if excel_file.filename == "" or xml_template.filename == "":
         return "No selected file"
 
-    # Create unique directories for each upload
     unique_id = str(uuid.uuid4())
     upload_dir = os.path.join(app.config["UPLOAD_FOLDER"], unique_id)
     output_dir = os.path.join(app.config["OUTPUT_FOLDER"], unique_id)

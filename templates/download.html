@@ -5,15 +5,123 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Download XML Files</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #f4f6f9;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            line-height: 1.6;
+        }
+
+        .container {
+            background-color: white;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+            width: 90%;
+            max-width: 800px;
+            /* Increased max-width */
+            max-height: 80vh;
+            /* Limit the height */
+            overflow-y: auto;
+            /* Make it scrollable if content overflows */
+            text-align: center;
+        }
+
+        h1 {
+            color: #2c3e50;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        h1 i {
+            margin-right: 15px;
+            color: #3498db;
+        }
+
+        .downloads-header {
+            margin-bottom: 20px;
+            font-size: 1.5em;
+            color: #3498db;
+        }
+
+        .file-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        .file-grid a {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 10px;
+            background-color: #3498db;
+            color: white;
+            border-radius: 5px;
+            text-decoration: none;
+            transition: background-color 0.3s ease;
+        }
+
+        .file-grid a:hover {
+            background-color: #2980b9;
+        }
+
+        .file-grid a i {
+            margin-right: 10px;
+            color: #2ecc71;
+        }
+
+        .back-button {
+            margin-top: 20px;
+        }
+
+        .back-button a {
+            background-color: #2ecc71;
+            color: white;
+            border: none;
+            padding: 12px 25px;
+            border-radius: 5px;
+            text-decoration: none;
+            transition: background-color 0.3s ease;
+        }
+
+        .back-button a:hover {
+            background-color: #27ae60;
+        }
+    </style>
 </head>
 
 <body>
-    <h1>Download XML Files</h1>
-    <ul>
-        {% for file in files %}
-        <li><a href="{{ url_for('download_file', unique_id=unique_id, filename=file) }}">{{ file }}</a></li>
-        {% endfor %}
-    </ul>
+    <div class="container">
+        <h1>
+            <i class="fas fa-download"></i>
+            Download XML Files
+        </h1>
+        <div class="downloads-header">
+            Downloads
+        </div>
+        <div class="file-grid">
+            {% for file in files %}
+            <a href="{{ url_for('download_file', unique_id=unique_id, filename=file) }}">
+                <i class="fas fa-check-circle"></i> {{ file }}
+            </a>
+            {% endfor %}
+        </div>
+        <div class="back-button">
+            <a href="{{ url_for('index') }}">
+                <i class="fas fa-arrow-left"></i> Back to Upload
+            </a>
+        </div>
+    </div>
 </body>
 
 </html>
