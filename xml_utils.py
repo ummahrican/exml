@@ -18,10 +18,17 @@ def write_xml_file(xml_content, output_file):
     # Parse the XML content
     root = ET.fromstring(xml_content)
 
-    # Remove namespace prefixes
+    # Preserve the namespace in the root tag
+    namespace_uri = root.tag.split("}", 1)[0].strip("{")
+
+    # Remove the ns0 prefix from all tags
+    root.tag = root.tag.split("}", 1)[1]
     for elem in root.iter():
         if "}" in elem.tag:
-            elem.tag = elem.tag.split("}", 1)[1]  # Remove namespace
+            elem.tag = elem.tag.split("}", 1)[1]  # Remove the namespace part
+
+    # Add the namespace declaration back to the root tag
+    root.set("xmlns:ns0", namespace_uri)
 
     # Write the XML tree to a file
     tree = ET.ElementTree(root)
