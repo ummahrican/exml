@@ -35,7 +35,7 @@ uv run -- flask run -p 3000
 ### 🧪 Test
 This project uses pytest for test discovery. Simply run:
 ```shell
-pytest
+uv run pytest
 ```
 test_FILENAME.py will be auto discovered and tests will run
 
