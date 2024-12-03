@@ -7,9 +7,11 @@ from utils.file_utils import read_excel_file, read_xml_template
 
 
 def populate_xml_template(xml_template: str, row_dict: Dict[str, str]) -> str:
-    for key, value in row_dict.items():
-        xml_template = xml_template.replace(f"{{{key}}}", str(value))
-    return xml_template
+    try:
+        return xml_template.format(**row_dict)
+    except KeyError as e:
+        logging.error(f"Missing key in row data: {e}")
+        raise
 
 
 def write_xml_file(xml_content: str, output_file: str):

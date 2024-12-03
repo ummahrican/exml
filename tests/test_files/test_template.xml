@@ -1,0 +1,107 @@
+<?xml-model href="http://www.tei-c.org/release/xml/tei/custom/schema/relaxng/tei_all.rng" type="application/xml" schematypens="http://relaxng.org/ns/structure/1.0"?>
+<?xml-model href="http://www.tei-c.org/release/xml/tei/custom/schema/relaxng/tei_all.rng" type="application/xml" schematypens="http://purl.oclc.org/dsdl/schematron"?>
+<TEI xmlns="http://www.tei-c.org/ns/1.0" xml:id="MP0038" type="document">
+    <teiHeader>
+        <fileDesc>
+            <titleStmt>
+                <title>Title</title>
+                <funder>Adam Benkato / UC Berkeley</funder>
+                <respStmt xml:id="DW">
+                    <persName>Dieter Weber</persName>
+                    <resp>Initial edition</resp>
+                </respStmt>
+                <respStmt xml:id="AB">
+                    <persName>Adam Benkato</persName>
+                    <resp>Preparation of the document for OpenAMPD</resp>
+                </respStmt>
+                <respStmt xml:id="AZ">
+                    <persName>Arash Zeini</persName>
+                    <resp>TEI design and encoding</resp>
+                </respStmt>
+            </titleStmt>
+            <editionStmt>
+                <edition>First online OpenAMPD edition.</edition>
+            </editionStmt>
+            <publicationStmt>
+            </publicationStmt>
+            <sourceDesc>
+                <listBibl>
+                    <head>Previous editions of this document</head>
+                    <bibl corresp="#bibl_Weber_2020">
+                        <biblScope unit="page">29–65</biblScope>
+                        <note>{Publication}</note>
+                    </bibl>
+                </listBibl>
+                <msDesc>
+                    <msIdentifier>
+                        <country>United States of America</country>
+                        <institution>{Location}</institution>
+                        <idno type="shelfmark">{Siglum}</idno>
+                        <idno type="OpenAMPD">{Corpus Number}</idno>
+                    </msIdentifier>
+                    <physDesc>
+                        <objectDesc form="document">
+                            <supportDesc material="parchment">
+                                <support>
+                                    <material>{Substrate Material}</material>
+                                    <dimensions>
+                                        <height unit="cm">{Height}</height>
+                                        <width unit="cm">{Width}</width>
+                                    </dimensions>
+                                </support>
+                                <extent>
+                                    <measure unit="lines" quantity="10">{Text on Recto}</measure>
+                                </extent>
+                            </supportDesc>
+                            <layoutDesc>
+                                <p>This is a vertical rectangle.</p>
+                            </layoutDesc>
+                        </objectDesc>
+                        <additions>
+                            Bulla is at top left. Has the impress of two seals.
+                        </additions>
+                    </physDesc>
+                </msDesc>
+            </sourceDesc>
+        </fileDesc>
+        <profileDesc>
+            <textClass>
+                <keywords>
+                    <term type="DocType">Administration</term>
+                    <term type="location">Qom</term>
+                    <term type="tag"></term>
+                </keywords>
+            </textClass>
+            <calendarDesc>
+                <calendar xml:id="Pahlavi">
+                    <p>Post Yazdgerdi era (PY)</p>
+                </calendar>
+                <calendar xml:id="Gregorian">
+                    <p>The Gregorian calendar</p>
+                </calendar>
+            </calendarDesc>
+            <correspDesc>
+                <!-- Use correspAction to capture initial info about content such as dates of the document, type of (trans)action, people involved and the location of transaction. The latter is the specific place/location of transaction, if mentioned, and not other places mentioned in the document,  -->
+                <correspAction type="transaction">
+                    <persName type="actors">N/A</persName>
+                    <persName type="seal">N/A</persName>
+                    <placeName type="DocLocation">—</placeName>
+                    <date calendar="#Pahlavi">No date</date>
+                    <date calendar="#Gregorian">No date</date>
+                </correspAction>
+            </correspDesc>
+            <particDesc>
+                <p></p>
+            </particDesc>
+        </profileDesc>
+    </teiHeader>
+    <text>
+        <body>
+            <div type="transliteration" xml:lang="pal">
+                <pb xml:id="pb-1r-trl" facs="85222/files/8.recto_ii.jpg"/>
+            </div>
+            <div type="translation" xml:lang="fra">
+            </div>
+        </body>
+    </text>
+</TEI>

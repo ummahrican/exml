@@ -1,6 +1,7 @@
 from flask import Flask, request, render_template, send_file, redirect, url_for
 import uuid
 import os
+from pathlib import Path
 import logging
 from utils.file_utils import ensure_directory_exists
 from utils.xml_utils import excel_to_xmls
@@ -28,17 +29,18 @@ def upload_file():
         return "Please upload both files.", 400
 
     unique_id = str(uuid.uuid4())
-    upload_dir = os.path.join(app.config["UPLOAD_FOLDER"], unique_id)
-    output_dir = os.path.join(app.config["OUTPUT_FOLDER"], unique_id)
+    upload_dir = Path(app.config["UPLOAD_FOLDER"]) / unique_id
+    output_dir = Path(app.config["OUTPUT_FOLDER"]) / unique_id
+
     ensure_directory_exists(upload_dir)
     ensure_directory_exists(output_dir)
 
-    excel_path = os.path.join(upload_dir, excel_file.filename)
-    xml_template_path = os.path.join(upload_dir, xml_template.filename)
+    excel_path = upload_dir / excel_file.filename
+    xml_template_path = upload_dir / xml_template.filename
     excel_file.save(excel_path)
     xml_template.save(xml_template_path)
 
-    excel_to_xmls(excel_path, xml_template_path, output_dir)
+    excel_to_xmls(str(excel_path), str(xml_template_path), str(output_dir))
 
     return redirect(url_for("download_files", unique_id=unique_id))
 
