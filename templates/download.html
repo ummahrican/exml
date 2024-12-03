@@ -1,36 +1,15 @@
-<!DOCTYPE html>
-<html lang="en">
-
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Download XML Files</title>
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
-</head>
-
-<body>
-    <div class="container">
-        <h1>
-            <i class="fas fa-download"></i>
-            Download XML Files
-        </h1>
-        <div class="downloads-header">
-            Downloads
-        </div>
-        <div class="file-grid">
-            {% for file in files %}
-            <a href="{{ url_for('download_file', unique_id=unique_id, filename=file) }}">
-                <i class="fas fa-check-circle"></i> {{ file }}
-            </a>
-            {% endfor %}
-        </div>
-        <div class="back-button">
-            <a href="{{ url_for('index') }}">
-                <i class="fas fa-arrow-left"></i> Back to Upload
-            </a>
-        </div>
-    </div>
-</body>
-
-</html>
+{% extends "base.html" %}
+{% block content %}
+<h1><i class="fas fa-download"></i> Download XML Files</h1>
+<div class="downloads-header">Downloads</div>
+<div class="file-grid">
+    {% for file in files %}
+    <a href="{{ url_for('download_file', unique_id=unique_id, filename=file) }}">
+        <i class="fas fa-check-circle"></i> {{ file }}
+    </a>
+    {% endfor %}
+</div>
+<div class="back-button">
+    <a href="{{ url_for('index') }}"><i class="fas fa-arrow-left"></i> Back to Upload</a>
+</div>
+{% endblock %}
