@@ -1,6 +1,6 @@
 from flask import Flask, request, render_template, send_file, redirect, url_for
-import uuid
 import os
+from datetime import datetime
 from pathlib import Path
 import logging
 from utils.file_utils import ensure_directory_exists
@@ -28,9 +28,12 @@ def upload_file():
     if not excel_file or not xml_template:
         return "Please upload both files.", 400
 
-    unique_id = str(uuid.uuid4())
-    upload_dir = Path(app.config["UPLOAD_FOLDER"]) / unique_id
-    output_dir = Path(app.config["OUTPUT_FOLDER"]) / unique_id
+    # Use timestamp instead of a unique id
+    timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
+
+    # Define the upload and output directories using the timestamp
+    upload_dir = Path(app.config["UPLOAD_FOLDER"]) / timestamp
+    output_dir = Path(app.config["OUTPUT_FOLDER"]) / timestamp
 
     ensure_directory_exists(upload_dir)
     ensure_directory_exists(output_dir)
@@ -42,7 +45,7 @@ def upload_file():
 
     excel_to_xmls(str(excel_path), str(xml_template_path), str(output_dir))
 
-    return redirect(url_for("download_files", unique_id=unique_id))
+    return redirect(url_for("download_files", unique_id=timestamp))
 
 
 @app.route("/download/<unique_id>")
