@@ -32,6 +32,12 @@ To start a local copy of the app on port `3000`:
 uv run -- flask run -p 3000
 ```
 
+To upgrade packages to latest version for maintence:
+
+```shell
+uv sync --upgrade
+```
+
 ### 🧪 Test
 This project uses pytest for test discovery. Simply run:
 ```shell
