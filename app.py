@@ -1,5 +1,6 @@
 from flask import Flask, request, render_template, send_file, redirect, url_for
 import os
+import traceback
 from datetime import datetime
 from pathlib import Path
 import logging
@@ -22,30 +23,35 @@ def index():
 
 @app.route("/upload", methods=["POST"])
 def upload_file():
-    excel_file = request.files.get("excelFile")
-    xml_template = request.files.get("xmlTemplate")
+    try:
+        excel_file = request.files.get("excelFile")
+        xml_template = request.files.get("xmlTemplate")
 
-    if not excel_file or not xml_template:
-        return "Please upload both files.", 400
+        if not excel_file or not xml_template:
+            return "Please upload both files.", 400
 
-    # Use timestamp instead of a unique id
-    timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
+        # Use timestamp instead of a unique id
+        timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
 
-    # Define the upload and output directories using the timestamp
-    upload_dir = Path(app.config["UPLOAD_FOLDER"]) / timestamp
-    output_dir = Path(app.config["OUTPUT_FOLDER"]) / timestamp
+        # Define the upload and output directories using the timestamp
+        upload_dir = Path(app.config["UPLOAD_FOLDER"]) / timestamp
+        output_dir = Path(app.config["OUTPUT_FOLDER"]) / timestamp
 
-    ensure_directory_exists(upload_dir)
-    ensure_directory_exists(output_dir)
+        ensure_directory_exists(upload_dir)
+        ensure_directory_exists(output_dir)
 
-    excel_path = upload_dir / excel_file.filename
-    xml_template_path = upload_dir / xml_template.filename
-    excel_file.save(excel_path)
-    xml_template.save(xml_template_path)
+        excel_path = upload_dir / excel_file.filename
+        xml_template_path = upload_dir / xml_template.filename
+        excel_file.save(excel_path)
+        xml_template.save(xml_template_path)
 
-    excel_to_xmls(str(excel_path), str(xml_template_path), str(output_dir))
+        excel_to_xmls(str(excel_path), str(xml_template_path), str(output_dir))
 
-    return redirect(url_for("download_files", unique_id=timestamp))
+        return redirect(url_for("download_files", unique_id=timestamp))
+    except Exception as e:
+        logging.error(f"Error processing files: {e}")
+        error_details = traceback.format_exc()
+        return render_template("error.html", error_message=error_details), 500
 
 
 @app.route("/download/<unique_id>")
