@@ -1,0 +1,28 @@
+# VCS
+.git
+.gitignore
+
+# Python-generated files
+__pycache__/
+*.py[oc]
+build/
+dist/
+wheels/
+*.egg-info
+.ruff_cache
+.pytest_cache
+
+# Virtual environments (must never leak into the image)
+.venv
+
+# Script outputs / runtime data
+*output_xmls*
+*uploads*
+
+# Not needed at runtime
+Dockerfile
+.dockerignore
+README.md
+LICENSE
+tests/
+.serena/
