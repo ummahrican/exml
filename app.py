@@ -1,9 +1,11 @@
-from flask import Flask, request, render_template, send_file, redirect, url_for
+import logging
 import os
 import traceback
-from datetime import datetime
+from datetime import UTC, datetime
 from pathlib import Path
-import logging
+
+from flask import Flask, redirect, render_template, request, send_file, url_for
+
 from utils.file_utils import ensure_directory_exists
 from utils.xml_utils import excel_to_xmls
 
@@ -14,6 +16,7 @@ app.config["OUTPUT_FOLDER"] = "output_xmls"
 logging.basicConfig(
     level=logging.INFO, format="%(asctime)s - %(levelname)s - %(message)s"
 )
+logger = logging.getLogger(__name__)
 
 
 @app.route("/")
@@ -31,7 +34,7 @@ def upload_file():
             return "Please upload both files.", 400
 
         # Use timestamp instead of a unique id
-        timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
+        timestamp = datetime.now(UTC).strftime("%Y%m%d_%H%M%S")
 
         # Define the upload and output directories using the timestamp
         upload_dir = Path(app.config["UPLOAD_FOLDER"]) / timestamp
@@ -48,8 +51,8 @@ def upload_file():
         excel_to_xmls(str(excel_path), str(xml_template_path), str(output_dir))
 
         return redirect(url_for("download_files", unique_id=timestamp))
-    except Exception as e:
-        logging.error(f"Error processing files: {e}")
+    except Exception as e:  # noqa: BLE001 - request boundary: render any failure
+        logger.error(f"Error processing files: {e}")
         error_details = traceback.format_exc()
         return render_template("error.html", error_message=error_details), 500
 

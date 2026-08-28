@@ -1,13 +1,19 @@
-import os
-import pandas as pd
 import logging
+import os
+from zipfile import BadZipFile
+
+import pandas as pd
+
+logger = logging.getLogger(__name__)
 
 
 def read_excel_file(excel_file):
     try:
         return pd.read_excel(excel_file)
-    except Exception as e:
-        logging.error(f"Error reading Excel file: {e}")
+    except (OSError, ValueError, BadZipFile) as e:
+        # OSError: missing/unreadable path. ValueError: unrecognised format.
+        # BadZipFile: truncated or corrupt .xlsx.
+        logger.error(f"Error reading Excel file: {e}")
         return None
 
 
@@ -15,8 +21,9 @@ def read_xml_template(xml_template_path):
     try:
         with open(xml_template_path, "r") as file:
             return file.read()
-    except Exception as e:
-        logging.error(f"Error reading XML template: {e}")
+    except (OSError, UnicodeDecodeError) as e:
+        # OSError: missing/unreadable path. UnicodeDecodeError: not text.
+        logger.error(f"Error reading XML template: {e}")
         return None
 
 

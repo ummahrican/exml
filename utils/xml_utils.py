@@ -1,10 +1,13 @@
-import os
 import logging
+import os
 import re
-from lxml import etree
-from typing import Dict
-from utils.file_utils import read_excel_file, read_xml_template
 from xml.sax.saxutils import escape
+
+from lxml import etree
+
+from utils.file_utils import read_excel_file, read_xml_template
+
+logger = logging.getLogger(__name__)
 
 
 def escape_xml_chars(value: str) -> str:
@@ -14,13 +17,13 @@ def escape_xml_chars(value: str) -> str:
     return escape(value, {'"': "&quot;", "'": "&apos;"})
 
 
-def populate_xml_template(xml_template: str, row_dict: Dict[str, str]) -> str:
+def populate_xml_template(xml_template: str, row_dict: dict[str, str]) -> str:
     try:
         # Escape special characters in all values before formatting
         escaped_dict = {k: escape_xml_chars(v) for k, v in row_dict.items()}
         return xml_template.format(**escaped_dict)
     except KeyError as e:
-        logging.error(f"Missing key in row data: {e}")
+        logger.error(f"Missing key in row data: {e}")
         raise
 
 
@@ -50,7 +53,7 @@ def write_xml_file(xml_content: str, output_file: str):
         with open(output_file, "w", encoding="utf-8") as f:
             f.write(full_content)
     except Exception as e:
-        logging.error(f"Error writing XML file {output_file}: {e}")
+        logger.error(f"Error writing XML file {output_file}: {e}")
         raise
 
 
